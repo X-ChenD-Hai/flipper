@@ -27,21 +27,23 @@ jobs:
 
     - name: Terminate Processes
       run: |
-        # 指定要解除进程的目录路径
-        $directoryPath = "D:\a\flipper\flipper\flipper\dist\flipper-server-windows"
-
-        # 获取该目录下所有进程，并递归子目录
-        $processes = Get-Process | Where-Object { $_.MainModule.FileName -like "*$directoryPath*" }
-
-        # 终止这些进程
-        foreach ($process in $processes) {
-            Stop-Process -Id $process.Id -Force -ErrorAction SilentlyContinue
+        $sourceDirectory = "${{ github.workspace }}\flipper\dist"
+        $destinationArchive = "${{ github.workspace }}\flipper\dist.zip"
+        # 使用一个临时目录来捕获错误信息
+        $tempErrorLog = "${{ github.workspace }}\flipper\compress-errors.txt"
+        # 尝试压缩目录，跳过无法访问的文件，并记录错误
+        Compress-Archive -Path $sourceDirectory -DestinationPath $destinationArchive -CompressionLevel Optimal -Force -ErrorAction SilentlyContinue
+        # 检查是否有错误发生
+        if (Test-Path $tempErrorLog) {
+          Get-Content $tempErrorLog | Foreach-Object { Write-Warning "Permission issue with file: $_" }
+          Remove-Item $tempErrorLog
         }
       shell: pwsh
+
 
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
         name: desktop-package
-        path: ${{ github.workspace }}\flipper\dist  # 指定压缩文件的路径
+        path: ${{ github.workspace }}\flipper\dist.zip  # 指定压缩文件的路径
