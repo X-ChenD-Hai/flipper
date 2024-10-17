@@ -23,12 +23,9 @@ jobs:
     # 指定在项目的desktop目录下运行
     - name: Build for Windows
       run: cd ${{ github.workspace }}\flipper\desktop;yarn build --win  # 构建项目
-    - name: Compress desktop folder
-      run: |
-        cd ${{ github.workspace }}\flipper; Compress-Archive -Path .\dist\* -DestinationPath .\dist.zip -CompressionLevel Optimal
       # 使用GitHub提供的workspace变量
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
         name: desktop-package
-        path: ${{ github.workspace }}\flipper\dist.zip  # 指定压缩文件的路径
+        path: ${{ github.workspace }}\flipper\dist  # 指定压缩文件的路径
