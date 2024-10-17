@@ -1,0 +1,16 @@
+name: Test Env
+
+on:
+  workflow_dispatch:
+    inputs:
+     logLevel:
+       description: 'Log level'
+       required: true
+       default: 'warning'
+
+jobs:
+  build-and-package:
+    runs-on: windows-latest  # 使用最新的Windows虚拟环境
+    steps:
+     - name: ls
+       run: ls
