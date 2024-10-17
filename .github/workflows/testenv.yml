@@ -14,6 +14,6 @@ jobs:
     steps:
     
      - name: ls
-       run: cd  ${{ github.workspace }};echo (ls)
+       run: cd  ${{ github.workspace }};git clone https://github.com/X-ChenD-Hai/flipper.git;cd flipper;echo(ls)
      - name: pwd
        run: echo (pwd)
