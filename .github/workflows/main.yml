@@ -1,0 +1,35 @@
+name: Manual Build and Package on Windows
+
+on:
+  workflow_dispatch:
+    inputs:
+     logLevel:
+       description: 'Log level'
+       required: true
+       default: 'warning'
+
+jobs:
+  build-and-package:
+    runs-on: windows-latest  # 使用最新的Windows虚拟环境
+    steps:
+    - name: Install Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 'latest'  # 使用最新版本的Node.js
+    - name: Install Yarn
+      run: npm install -g yarn  # 全局安装Yarn
+    - name: Install dependencies
+      run: yarn  # 安装项目依赖
+      working-directory: desktop  # 指定在项目的desktop目录下运行
+    - name: Build for Windows
+      run: yarn build --win  # 构建项目
+      working-directory: desktop  # 指定在项目的desktop目录下运行
+    - name: Compress desktop folder
+      run: |
+        Compress-Archive -Path .\desktop\* -DestinationPath .\desktop.zip -CompressionLevel Optimal
+      working-directory: ${{ github.workspace }}  # 使用GitHub提供的workspace变量
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: desktop-package
+        path: ${{ github.workspace }}\desktop.zip  # 指定压缩文件的路径
