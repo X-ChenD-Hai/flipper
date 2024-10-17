@@ -29,7 +29,7 @@ jobs:
         Compress-Archive -Path .\desktop\* -DestinationPath .\desktop.zip -CompressionLevel Optimal
       working-directory: ${{ github.workspace }}  # 使用GitHub提供的workspace变量
     - name: Upload Artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v1
       with:
         name: desktop-package
         path: ${{ github.workspace }}\desktop.zip  # 指定压缩文件的路径
