@@ -24,6 +24,22 @@ jobs:
     - name: Build for Windows
       run: cd ${{ github.workspace }}\flipper\desktop;yarn build --win  # 构建项目
       # 使用GitHub提供的workspace变量
+
+    - name: Terminate Processes
+      run: |
+        # 指定要解除进程的目录路径
+        $directoryPath = "D:\a\flipper\flipper\flipper\dist\flipper-server-windows"
+
+        # 获取该目录下所有进程，并递归子目录
+        $processes = Get-Process | Where-Object { $_.MainModule.FileName -like "*$directoryPath*" }
+
+        # 终止这些进程
+        foreach ($process in $processes) {
+            Stop-Process -Id $process.Id -Force -ErrorAction SilentlyContinue
+        }
+      shell: pwsh
+
+
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
