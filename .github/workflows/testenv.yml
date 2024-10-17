@@ -13,4 +13,4 @@ jobs:
     runs-on: windows-latest  # 使用最新的Windows虚拟环境
     steps:
      - name: ls
-       run: ls
+       run: echo (ls)
