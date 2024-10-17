@@ -15,7 +15,7 @@ jobs:
     - name: Install Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: 'latest'  # 使用最新版本的Node.js
+        node-version: '22.9.0'  # 使用最新版本的Node.js
     - name: Install Yarn
       run: npm install -g yarn  # 全局安装Yarn
     - name: Install dependencies
