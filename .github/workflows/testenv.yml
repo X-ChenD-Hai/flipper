@@ -12,7 +12,8 @@ jobs:
   build-and-package:
     runs-on: windows-latest  # 使用最新的Windows虚拟环境
     steps:
+    
      - name: ls
-       run: echo (ls)
+       run: cd  ${{ github.workspace }} echo (ls)
      - name: pwd
        run: echo (pwd)
