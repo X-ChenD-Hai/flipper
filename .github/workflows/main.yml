@@ -19,7 +19,7 @@ jobs:
     - name: Install Yarn
       run: npm install -g yarn  # 全局安装Yarn
     - name: Install dependencies
-      run:  cd ${{ github.workspace }}; git clone https://github.com/X-ChenD-Hai/flipper.git # 安装项目依赖
+      run:  cd ${{ github.workspace }}; git clone https://github.com/X-ChenD-Hai/flipper.git;cd ./flipper/desktop;yarn  # 安装项目依赖
     # 指定在项目的desktop目录下运行
     - name: Build for Windows
       run: cd ${{ github.workspace }}\flipper\desktop;yarn build --win  # 构建项目
