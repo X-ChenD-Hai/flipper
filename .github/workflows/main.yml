@@ -19,16 +19,16 @@ jobs:
     - name: Install Yarn
       run: npm install -g yarn  # 全局安装Yarn
     - name: Install dependencies
-      run:  cd  ${{ github.workspace }}\desktop;yarn  # 安装项目依赖
+      run:  cd ${{ github.workspace }}; git clone https://github.com/X-ChenD-Hai/flipper.git;cd flipper;cd ${{ github.workspace }}\flipper\desktop;yarn  # 安装项目依赖
     # 指定在项目的desktop目录下运行
     - name: Build for Windows
-      run: cd ${{ github.workspace }}\desktop;yarn build --win  # 构建项目
+      run: cd ${{ github.workspace }}\flipper\desktop;yarn build --win  # 构建项目
     - name: Compress desktop folder
       run: |
-        cd ${{ github.workspace }}; Compress-Archive -Path .\desktop\* -DestinationPath .\desktop.zip -CompressionLevel Optimal
+        cd ${{ github.workspace }}\flipper; Compress-Archive -Path .\desktop\* -DestinationPath .\desktop.zip -CompressionLevel Optimal
       # 使用GitHub提供的workspace变量
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
         name: desktop-package
-        path: ${{ github.workspace }}\desktop.zip  # 指定压缩文件的路径
+        path: ${{ github.workspace }}\flipper\desktop.zip  # 指定压缩文件的路径
