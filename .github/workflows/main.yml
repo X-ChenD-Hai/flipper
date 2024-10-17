@@ -19,15 +19,14 @@ jobs:
     - name: Install Yarn
       run: npm install -g yarn  # 全局安装Yarn
     - name: Install dependencies
-      run: yarn  # 安装项目依赖
-      working-directory:  ${{ github.workspace }}\desktop  # 指定在项目的desktop目录下运行
+      run:  cd  ${{ github.workspace }}\desktop;yarn  # 安装项目依赖
+    # 指定在项目的desktop目录下运行
     - name: Build for Windows
-      run: yarn build --win  # 构建项目
-      working-directory:  ${{ github.workspace }}\desktop  # 指定在项目的desktop目录下运行
+      run: cd ${{ github.workspace }}\desktop;yarn build --win  # 构建项目
     - name: Compress desktop folder
       run: |
-        Compress-Archive -Path .\desktop\* -DestinationPath .\desktop.zip -CompressionLevel Optimal
-      working-directory: ${{ github.workspace }}  # 使用GitHub提供的workspace变量
+        cd ${{ github.workspace }}; Compress-Archive -Path .\desktop\* -DestinationPath .\desktop.zip -CompressionLevel Optimal
+      # 使用GitHub提供的workspace变量
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
